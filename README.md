@@ -8,6 +8,16 @@ An end-to-end analysis of ~99,441 orders on Olist, Brazil's largest department-s
 ![scikit--learn](https://img.shields.io/badge/scikit--learn-Random%20Forest-F7931E)
 ![Data License](https://img.shields.io/badge/data%20license-CC%20BY--NC--SA%204.0-lightgrey)
 
+### 🚀 [View the Live Interactive Dashboard](https://gaurav-n-patil.github.io/Data-Analysis-Olist-Problem/dashboard/)
+**https://gaurav-n-patil.github.io/Data-Analysis-Olist-Problem/dashboard/**
+### Dashboard Preview
+
+![Dashboard Overview](charts/dashboard.png)
+
+### Final Findings  
+
+![Final Findings](charts/finalfinding.png)
+
 **Analysts:** Gaurav (Business Strategist) & Rohan (Data Architect)
 **Dataset:** [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) (Kaggle, CC BY-NC-SA) — 99,441 orders, Sep 2016 – Oct 2018
 **Notebook:** [Run the full analysis in Google Colab](https://colab.research.google.com/drive/1nlxpwo3AwQFgWrKd_scdKQaPuI0PRGtg?usp=sharing)
