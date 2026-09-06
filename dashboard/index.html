@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Olist Manifest — Marketplace Performance & Delivery Analysis</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="masthead">
+    <div class="masthead-top">
+      <span>OLIST · BRAZIL · SEP 2016 – OCT 2018</span>
+      <span id="mh-orders">— ORDERS</span>
+    </div>
+    <h1>The shape of a late delivery</h1>
+    <p class="lede">Ninety-nine thousand orders on Brazil's largest department-store marketplace, read end to end for what actually moves a customer's review — growth, geography, product mix, payments, and one dominant cause.</p>
+    <p class="byline">Analysis by Gaurav (Business Strategist) &amp; Rohan (Data Architect) · Dataset: <a href="https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce" target="_blank" rel="noopener">Olist on Kaggle</a>, CC BY-NC-SA 4.0 · <a href="https://colab.research.google.com/drive/1nlxpwo3AwQFgWrKd_scdKQaPuI0PRGtg?usp=sharing" target="_blank" rel="noopener">Notebook on Colab</a></p>
+  </header>
+
+  <!-- ============ KPI LEDGER ============ -->
+  <div class="ledger" id="kpi-ledger"></div>
+
+  <!-- ============ HERO: THE CLIFF ============ -->
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-figure">
+          <span class="n" id="hero-early">4.3</span>
+          <span class="arrow">→</span>
+          <span class="n dim" id="hero-late">1.7</span>
+        </div>
+        <h2>Average review score, one day before the estimate versus one day after it.</h2>
+        <p>Satisfaction doesn't fade as a delivery slips — it holds steady across every shade of "early," then falls off a ledge the moment a package is late at all.</p>
+        <span class="stat-tag" id="hero-tag">late orders get a 1-star review 7× as often as on-time ones</span>
+      </div>
+      <div class="hero-chart-box">
+        <div class="chart-title">AVG. REVIEW SCORE BY DELIVERY TIMING</div>
+        <div class="chart-holder" style="height:280px;"><canvas id="chart-cliff"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q1 ============ -->
+  <section class="entry" id="q1">
+    <div class="entry-rail"><span class="qnum">01</span>GROWTH</div>
+    <div class="entry-body">
+      <h3>Marketplace performance over time</h3>
+      <p class="prompt">How have order volume, revenue, and review scores trended? Do they tell the same story?</p>
+      <p class="finding" id="q1-finding"></p>
+      <div class="chart-frame">
+        <div class="chart-title">MONTHLY REVENUE (BARS) VS. AVERAGE REVIEW SCORE (LINE) · JAN 2017 – AUG 2018</div>
+        <div class="chart-holder" style="height:300px;"><canvas id="chart-q1"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q2 ============ -->
+  <section class="entry" id="q2">
+    <div class="entry-rail"><span class="qnum">02</span>DELIVERY</div>
+    <div class="entry-body">
+      <h3>Delivery performance &amp; satisfaction</h3>
+      <p class="prompt">How does timing relative to the estimated date relate to review scores?</p>
+      <p class="finding" id="q2-finding"></p>
+      <div class="chart-frame">
+        <div class="chart-title">1-STAR REVIEW RATE BY DELIVERY TIMING BUCKET</div>
+        <div class="chart-holder" style="height:280px;"><canvas id="chart-q2"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q3 ============ -->
+  <section class="entry" id="q3">
+    <div class="entry-rail"><span class="qnum">03</span>GEOGRAPHY</div>
+    <div class="entry-body">
+      <h3>Seller &amp; geographic patterns</h3>
+      <p class="prompt">Sellers and customers aren't evenly spread across Brazil — how does that show up in delivery and freight?</p>
+      <p class="finding" id="q3-finding"></p>
+      <div class="chart-frame">
+        <div class="toggle-row" id="q3-toggle">
+          <button data-metric="late_rate" class="active">Late delivery rate</button>
+          <button data-metric="freight_pct">Freight % of order value</button>
+        </div>
+        <div class="chart-title" id="q3-chart-title">% OF ORDERS DELIVERED LATE, BY CUSTOMER REGION</div>
+        <div class="chart-holder" style="height:280px;"><canvas id="chart-q3"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q4 ============ -->
+  <section class="entry" id="q4">
+    <div class="entry-rail"><span class="qnum">04</span>CATEGORY</div>
+    <div class="entry-body">
+      <h3>Product category performance</h3>
+      <p class="prompt">How do volume, price, and review scores differ across categories?</p>
+      <p class="finding" id="q4-finding"></p>
+      <div class="chart-frame">
+        <div class="chart-title">AVG. REVIEW SCORE, TOP 15 CATEGORIES BY VOLUME — VS. PLATFORM AVERAGE</div>
+        <div class="chart-holder" style="height:400px;"><canvas id="chart-q4"></canvas></div>
+      </div>
+      <table class="led" id="q4-table">
+        <thead><tr><th>Weakest categories (min. 30 orders)</th><th class="num">Orders</th><th class="num">Avg. review</th><th class="num">vs. platform</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ Q5 ============ -->
+  <section class="entry" id="q5">
+    <div class="entry-rail"><span class="qnum">05</span>PAYMENTS</div>
+    <div class="entry-body">
+      <h3>Payment behavior</h3>
+      <p class="prompt">How do payment type and installment count relate to order value and satisfaction?</p>
+      <p class="finding" id="q5-finding"></p>
+      <div class="two-col">
+        <div class="chart-frame">
+          <div class="chart-title">ORDER VALUE (BARS) &amp; REVIEW SCORE (LINE) BY INSTALLMENTS</div>
+          <div class="chart-holder" style="height:260px;"><canvas id="chart-q5"></canvas></div>
+        </div>
+        <div class="chart-frame">
+          <div class="chart-title">AVG. REVIEW SCORE BY PAYMENT TYPE</div>
+          <div class="chart-holder" style="height:260px;"><canvas id="chart-q5b"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Q6 ============ -->
+  <section class="entry" id="q6">
+    <div class="entry-rail"><span class="qnum">06</span>ROOT CAUSE</div>
+    <div class="entry-body">
+      <h3>What actually predicts a bad review</h3>
+      <p class="prompt">A Random Forest ranks nine pre-review operational features by predictive weight.</p>
+      <p class="finding" id="q6-finding"></p>
+      <div class="rf-row">
+        <div class="seal"><span class="v" id="q6-auc">0.75</span><span class="l">MODEL<br>AUC</span></div>
+        <div class="chart-frame" style="flex:1;">
+          <div class="chart-title">RELATIVE FEATURE IMPORTANCE — PREDICTING A 1–2 STAR REVIEW</div>
+          <div class="chart-holder" style="height:280px;"><canvas id="chart-q6"></canvas></div>
+        </div>
+      </div>
+      <div class="note">Observational data, not a controlled experiment — an AUC of 0.75 ranks primary vs. secondary drivers well; it is not causal proof.</div>
+    </div>
+  </section>
+
+  <!-- ============ BONUS ============ -->
+  <section class="entry" id="bonus">
+    <div class="entry-rail"><span class="qnum">+</span>RETENTION</div>
+    <div class="entry-body">
+      <h3>Repeat customer economics</h3>
+      <p class="prompt">The dataset separates an order-level customer ID from a person-level one — what does that reveal about repeat purchases?</p>
+      <p class="finding" id="bonus-finding"></p>
+      <div class="stat-pair">
+        <div class="stat-card"><div class="k">SHARE WHO EVER RETURN</div><div class="v" id="bonus-pct">3.0%</div></div>
+        <div class="stat-card hi"><div class="k">LIFETIME VALUE, REPEAT VS. ONE-TIME</div><div class="v" id="bonus-ltv">2.0×</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RECOMMENDATIONS ============ -->
+  <section class="recs">
+    <h2>Where the evidence points</h2>
+    <p class="sub">Ordered by the strength of what the data supports — not by ease of implementation.</p>
+    <ol>
+      <li><div><div class="t">Treat on-time delivery as the primary satisfaction lever</div><div class="d">The cliff effect and the model's ~76–78% weight on delivery timing both say this should outrank most other satisfaction work.</div></div></li>
+      <li><div><div class="t">Fix the seller-geography imbalance structurally</div><div class="d">São Paulo sellers fulfilling ~71% of orders is a network-design problem — regional fulfillment or logistics partnerships, not asking individual sellers to try harder.</div></div></li>
+      <li><div><div class="t">Give bulky, underperforming categories a dedicated look</div><div class="d">Office furniture and similar categories underperform without an obvious delivery cause — read the review text to confirm whether it's damage in transit or something else.</div></div></li>
+      <li><div><div class="t">Deprioritize payment-experience changes</div><div class="d">Installments and payment type barely move review scores once delivery timing is accounted for — effort is better spent elsewhere.</div></div></li>
+      <li><div><div class="t">Build a retention program — after delivery is fixed</div><div class="d">Repeat customers are worth roughly double the lifetime spend, but a customer whose first delivery was late won't respond well to a retention nudge.</div></div></li>
+    </ol>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="grid">
+      <div>
+        <p>METHODOLOGY: eight source tables cleaned and joined to one row per order (99,441 rows). Reviews deduplicated to one per order; missing product categories recoded to "unknown" rather than dropped. Delivery-timing analysis scoped to delivered orders with a non-null delivery date.</p>
+        <p>All figures recomputed directly from the source CSVs in this repository, following the methodology in the accompanying <a href="https://colab.research.google.com/drive/1nlxpwo3AwQFgWrKd_scdKQaPuI0PRGtg?usp=sharing" target="_blank" rel="noopener">Colab notebook</a> — not read from a fixed export.</p>
+      </div>
+      <div>
+        <p>SCOPE: order_value = price + freight at the item level, not Olist's margin. This is observational data — associations, not proven causation.</p>
+        <p>Data: Brazilian E-Commerce Public Dataset by Olist, via Kaggle, CC BY-NC-SA 4.0. Company and partner names in review text were replaced with fictional placeholders by the original publisher.</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
